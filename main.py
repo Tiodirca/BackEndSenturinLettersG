@@ -83,7 +83,7 @@ def pegarValores():
         tamanhoLista = request.form.get("tamanhoLista")
         tipo_modelo = request.form.get("modelo_slide")
         nome_letra = request.form.get("nome_letra")
-        nome_letra = nome_letra.replace(" ", "_")
+        #nome_letra = nome_letra.replace(" ", " ")
         # fazendo interacao com o tamanho recebido
         for index in range(int(tamanhoLista)):
             # variavel recebe os valores passados atraves do map
@@ -91,10 +91,33 @@ def pegarValores():
             estrofe = request.form.get(f"versos[{index}]")
             # adicionando valores corresponte a uma lista
             letra_completa.append(estrofe)
+            print(letra_completa)    
         chamar_criar_arquivo(nome_letra, tipo_modelo)
         return "<p>sucesso ao pegar valores</p>"
     except:
         return "<p>erro ao pegar valores</p>"
+
+@gerarArquivo.route("/excluirArquivo", methods=['POST'])
+def excluir_arquivo_diretorio():
+    # metodo para excluir o arquivo gerado
+    arquivo = request.form.get('arquivo')
+    nome_arquivo = arquivo + ".pptx"
+    # pegando o caminho absoluto do arquivo
+    caminho_absoluto_arquivo_python = os.path.abspath(__file__)
+    # pegando o diretorio usando o caminho absoluto
+    diretorio_src = os.path.dirname(caminho_absoluto_arquivo_python)
+    # listando todos os arquivos
+    diretorio = os.listdir(diretorio_src)
+    try:
+        # verificando se o nome do arquivo corresponde a 
+        # algum arquivo contido no diretorio
+        for file in diretorio:
+            if file == nome_arquivo:
+                # removendo o arquivo
+                os.remove(file)
+        return "<p>sucesso ao excluir</p>"
+    except:
+        return "<p>erro ao excluir</p>"
 
 
 def obterIP():
@@ -103,10 +126,11 @@ def obterIP():
         # obtendo ip
         ip = socket.gethostbyname(socket.gethostname())
         print(ip)
-        # salvando o arquivo
+        # retornando o arquivo
         return ip
     except:
         return "<p>erro</p>"
+        
 
 
 if __name__ == '__main__':
