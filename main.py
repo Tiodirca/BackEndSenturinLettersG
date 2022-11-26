@@ -83,7 +83,7 @@ def pegarValores():
         tamanhoLista = request.form.get("tamanhoLista")
         tipo_modelo = request.form.get("modelo_slide")
         nome_letra = request.form.get("nome_letra")
-        #nome_letra = nome_letra.replace(" ", " ")
+        # nome_letra = nome_letra.replace(" ", " ")
         # fazendo interacao com o tamanho recebido
         for index in range(int(tamanhoLista)):
             # variavel recebe os valores passados atraves do map
@@ -91,11 +91,12 @@ def pegarValores():
             estrofe = request.form.get(f"versos[{index}]")
             # adicionando valores corresponte a uma lista
             letra_completa.append(estrofe)
-            print(letra_completa)    
+            print(letra_completa)
         chamar_criar_arquivo(nome_letra, tipo_modelo)
         return "<p>sucesso ao pegar valores</p>"
     except:
         return "<p>erro ao pegar valores</p>"
+
 
 @gerarArquivo.route("/excluirArquivo", methods=['POST'])
 def excluir_arquivo_diretorio():
@@ -130,8 +131,8 @@ def obterIP():
         return ip
     except:
         return "<p>erro</p>"
-        
 
 
 if __name__ == '__main__':
-    gerarArquivo.run(host=obterIP(), debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    gerarArquivo.run(host='0.0.0.0', port=port, debug=True)
