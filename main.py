@@ -46,7 +46,7 @@ def chamar_criar_arquivo(nomeletra, tipo_modelo):
         prs = Presentation(caminho)
     for verso in letra_completa:
         adicionar_slides(prs, nomeletra, verso)
-    prs.save(nomeletra + ".pptx")
+    prs.save(nomeletra + ".ppt")
     # limpando valor da lista
     letra_completa = []
 
@@ -144,5 +144,6 @@ def obter_ip():
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     gerarArquivo.run(host='0.0.0.0', port=port, debug=True)
-
+    #msg_programa_executavel = "Necessario para estar gerando o arquivo de slides no formato ppt."
+    #print(msg_programa_executavel)
     #serve(gerarArquivo, host=obter_ip(), port=8080)
