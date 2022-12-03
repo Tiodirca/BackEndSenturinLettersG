@@ -12,6 +12,7 @@ gerarArquivo = Flask("name")
 
 nome_letra = ""
 letra_completa = []
+formato_arquivo = ".ppt"
 
 
 @gerarArquivo.route("/")
@@ -27,15 +28,16 @@ def gerar():
 @gerarArquivo.route("/chamarBaixarArquivo")
 def chamar_baixar_arquivo():
     try:
+        print("sfdsfsd")
         return baixar_arquivo(nome_letra)
     except Exception as e:
         print(e)
-        return f"<p>erro ao chamar baixar arquivo '{e}'</p>"
+        return f"<p>erro ao chamar baixar arquivo : '{e}'</p>"
 
 
 def chamar_criar_arquivo(nomeletra, tipo_modelo):
     # metodo responsavel por chamar a criacao do arquivo
-    global letra_completa
+    global letra_completa,formato_arquivo
     if 'modelo_geral' in tipo_modelo:
         # passando o caminho do modelo que sera utilizado para gerar os slides
         caminho = "modelos_slides/modelo_geral.pptx"
@@ -46,7 +48,7 @@ def chamar_criar_arquivo(nomeletra, tipo_modelo):
         prs = Presentation(caminho)
     for verso in letra_completa:
         adicionar_slides(prs, nomeletra, verso)
-    prs.save(nomeletra + ".ppt")
+    prs.save(nomeletra + formato_arquivo)
     # limpando valor da lista
     letra_completa = []
 
@@ -54,14 +56,13 @@ def chamar_criar_arquivo(nomeletra, tipo_modelo):
 def baixar_arquivo(nome_arquivo):
     # metodo responsavel por baixar o arquivo gerado
     try:
-        print(nome_arquivo)
+        global formato_arquivo
         caminho_absoluto_arquivo_python = os.path.abspath(__file__)
         # pegando o diretorio baseado no caminho absoluto
         diretorio_src = os.path.dirname(caminho_absoluto_arquivo_python)
-        # print(diretorio_src)
-        arquivo = nome_arquivo + ".pptx"
+        arquivo = nome_arquivo + formato_arquivo
         return send_from_directory(diretorio_src,
-                                   arquivo, as_attachment=True)
+                                   arquivo, as_attachment=False)
     except Exception as e:
         print(e)
         return f"<p>erro ao baixar arquivo '{nome_arquivo}' : '{e}'</p>"
@@ -106,9 +107,10 @@ def pegar_valores():
 
 @gerarArquivo.route("/excluirArquivo", methods=['POST'])
 def excluir_arquivo_diretorio():
+    global formato_arquivo
     # metodo para excluir o arquivo gerado
     arquivo = request.form.get('arquivo')
-    nome_arquivo = arquivo + ".pptx"
+    nome_arquivo = arquivo + formato_arquivo
     # pegando o caminho absoluto do arquivo
     caminho_absoluto_arquivo_python = os.path.abspath(__file__)
     # pegando o diretorio usando o caminho absoluto
@@ -125,11 +127,11 @@ def excluir_arquivo_diretorio():
         return "<p>sucesso ao excluir</p>"
     except Exception as e:
         print(e)
-        return f"<p>erro ao excluir f'{e}'</p>"
+        return f"<p>erro ao excluir '{e}'</p>"
 
 
 def obter_ip():
-    # metodo para obter ip da maquina
+    # metodo para obter ip da maquina para testes
     try:
         # obtendo ip
         ip = socket.gethostbyname(socket.gethostname())
@@ -138,12 +140,10 @@ def obter_ip():
         return ip
     except Exception as e:
         print(e)
-        return f"<p>erro f'{e}'</p>"
+        return f"<p>Erro '{e}'</p>"
 
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     gerarArquivo.run(host='0.0.0.0', port=port, debug=True)
-    msg_programa_executavel = "Necessario para estar gerando o arquivo de slides no formato ppt."
-    print(msg_programa_executavel)
-    #serve(gerarArquivo, host=obter_ip(), port=8080)
+
