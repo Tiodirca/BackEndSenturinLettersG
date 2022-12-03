@@ -28,7 +28,6 @@ def gerar():
 @gerarArquivo.route("/chamarBaixarArquivo")
 def chamar_baixar_arquivo():
     try:
-        print("sfdsfsd")
         return baixar_arquivo(nome_letra)
     except Exception as e:
         print(e)
