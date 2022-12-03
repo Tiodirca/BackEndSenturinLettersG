@@ -30,7 +30,7 @@ def chamar_baixar_arquivo():
         return baixar_arquivo(nome_letra)
     except Exception as e:
         print(e)
-        return f"<p>erro ao chamar baixar arquivo f'{e}'</p>"
+        return f"<p>erro ao chamar baixar arquivo '{e}'</p>"
 
 
 def chamar_criar_arquivo(nomeletra, tipo_modelo):
@@ -54,7 +54,7 @@ def chamar_criar_arquivo(nomeletra, tipo_modelo):
 def baixar_arquivo(nome_arquivo):
     # metodo responsavel por baixar o arquivo gerado
     try:
-        # print(nome_arquivo)
+        print(nome_arquivo)
         caminho_absoluto_arquivo_python = os.path.abspath(__file__)
         # pegando o diretorio baseado no caminho absoluto
         diretorio_src = os.path.dirname(caminho_absoluto_arquivo_python)
@@ -64,7 +64,7 @@ def baixar_arquivo(nome_arquivo):
                                    arquivo, as_attachment=True)
     except Exception as e:
         print(e)
-        return f"<p>erro ao baixar arquivo f'{e}'</p>"
+        return f"<p>erro ao baixar arquivo '{nome_arquivo}' : '{e}'</p>"
 
 
 def adicionar_slides(prs, titulo, estrofe):
@@ -144,6 +144,6 @@ def obter_ip():
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     gerarArquivo.run(host='0.0.0.0', port=port, debug=True)
-    #msg_programa_executavel = "Necessario para estar gerando o arquivo de slides no formato ppt."
-    #print(msg_programa_executavel)
+    msg_programa_executavel = "Necessario para estar gerando o arquivo de slides no formato ppt."
+    print(msg_programa_executavel)
     #serve(gerarArquivo, host=obter_ip(), port=8080)
