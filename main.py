@@ -36,7 +36,7 @@ def chamar_baixar_arquivo():
 
 def chamar_criar_arquivo(nomeletra, tipo_modelo):
     # metodo responsavel por chamar a criacao do arquivo
-    global letra_completa,formato_arquivo
+    global letra_completa, formato_arquivo
     if 'modelo_geral' in tipo_modelo:
         # passando o caminho do modelo que sera utilizado para gerar os slides
         caminho = "modelos_slides/modelo_geral.pptx"
@@ -88,7 +88,6 @@ def pegar_valores():
         tamanholista = request.form.get("tamanhoLista")
         tipo_modelo = request.form.get("modelo_slide")
         nome_letra = request.form.get("nome_letra")
-        # nome_letra = nome_letra.replace(" ", " ")
         # fazendo interacao com o tamanho recebido
         for index in range(int(tamanholista)):
             # variavel recebe os valores passados atraves do map
@@ -134,7 +133,7 @@ def obter_ip():
     try:
         # obtendo ip
         ip = socket.gethostbyname(socket.gethostname())
-        print(f" Ip da Maquina : {ip}")
+        print(f"Ip(protocolo de rede) da Maquina : {ip}")
         # retornando o arquivo
         return ip
     except Exception as e:
@@ -143,6 +142,10 @@ def obter_ip():
 
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))
-    gerarArquivo.run(host='0.0.0.0', port=port, debug=True)
-
+    # port = int(os.environ.get("PORT", 5000))
+    # gerarArquivo.run(host='0.0.0.0', port=port, debug=True)
+    print("Necessario está tela estar aberta para "
+          "\ngerar e baixar o arquivo criado no programa"
+          "\nSenturion Letters G.")
+    serve(gerarArquivo, host=obter_ip(), port=5000)
+    # gerarArquivo.run(host=obter_ip(), port=5000, debug=True),
