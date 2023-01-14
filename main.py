@@ -7,6 +7,8 @@ from waitress import serve
 
 # pip install Flask
 # pip install python-pptx
+# pip install waitress
+# pyinstaller --windowed main.py
 
 gerarArquivo = Flask("name")
 
@@ -46,7 +48,6 @@ def chamar_criar_arquivo(nomeletra, tipo_modelo):
         caminho = "modelos_slides/modelo_geracao_fire.pptx"
         prs = Presentation(caminho)
     for verso in letra_completa:
-        print(verso + "asdasdszxczxc")
         adicionar_slides(prs, nomeletra, verso)
     prs.save(nomeletra + formato_arquivo)
     # limpando valor da lista
@@ -77,7 +78,6 @@ def adicionar_slides(prs, titulo, estrofe):
     subtitulo = slide.placeholders[1]
     title.text = titulo
     subtitulo.text = estrofe.replace("pnj", "\n").replace("</p>", "").replace("\r", "")
-    print("sa" + subtitulo.text)
 
 
 @gerarArquivo.route("/pegarValores", methods=['POST'])
@@ -97,7 +97,6 @@ def pegar_valores():
             estrofe = request.form.get(f"versos[{index}]")
             # adicionando valores corresponte a uma lista
             letra_completa.append(estrofe)
-            print(estrofe + "sadas")
             print(letra_completa)
         chamar_criar_arquivo(nome_letra, tipo_modelo)
         return "<p>sucesso ao pegar valores</p>"
