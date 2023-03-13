@@ -3,7 +3,6 @@ import os
 from flask import send_from_directory
 from flask import request
 from flask import Flask
-import download_video
 
 nome_letra = ""
 letra_completa = []
@@ -22,13 +21,6 @@ def gerar():
         return f"<p>Erro ao acessar f'{e}'</p>"
 
 
-@gerarArquivo.route("/passarLinkVideo", methods=['POST'])
-def chamar_conversao_video_texto():
-    try:
-        return download_video.pegar_link_video()
-    except Exception as e:
-        print(e)
-        return f"<p>erro ao chamar baixar arquivo : '{e}'</p>"
 
 
 @gerarArquivo.route("/chamarBaixarArquivo")
